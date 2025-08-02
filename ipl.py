@@ -14,15 +14,41 @@ def teamsApi():
     return teams_dict
 
 def teamVteamAPI(team1,team2):
-    temp = matches[((matches['team1'] == team1) & (matches['team2'] == team2)) | ((matches['team1'] == team2) & (matches['team2'] == team1))]
-    total_matches = temp.shape[0]
+    if team1 in list(set(matches['team1'].unique())) and team2 in list(set(matches['team1'].unique())):
+        temp = matches[((matches['team1'] == team1) & (matches['team2'] == team2)) | ((matches['team1'] == team2) & (matches['team2'] == team1))]
+        total_matches = temp.shape[0]
 
-    matches_won_team1 = temp["winner"].value_counts()[team1]
-    matches_won_team2 = temp["winner"].value_counts()[team2]
+        matches_won_team1 = temp["winner"].value_counts()[team1]
+        matches_won_team2 = temp["winner"].value_counts()[team2]
 
-    comparison = {
-            "total match":total_matches,
-            "match_won_team1":int(matches_won_team1),
-            "match_won_team2":int(matches_won_team2)
+        comparison = {
+                "total match":total_matches,
+                "match_won_team1":int(matches_won_team1),
+                "match_won_team2":int(matches_won_team2)
+            }
+        return comparison
+    else:
+        return {
+            "error":"Team name dosen't exist"
         }
-    return comparison
+    
+def teamRecord(team):
+    if team in list(set(matches['team1'].unique())):
+        total_matches = matches[(matches["team1"] == team) | (matches["team2"] == team)]
+        matches_won = (total_matches["winner"] == team).sum()
+        max_runs_scored = total_matches["target_runs"].max()
+        lowest_runs_scored = total_matches["target_runs"].min()
+
+        record = {
+                    "total_matches":int(total_matches.shape[0]),
+                    "matches_won":int(matches_won),
+                    "matches_lost":int(total_matches.shape[0] - matches_won),
+                    "max_runs_scored":int(max_runs_scored),
+                    "lowest_runs_scored":int(lowest_runs_scored),
+                    "average_runs_scored":int(total_matches["target_runs"].mean())
+            }
+        return record
+    else:
+        return {
+            "error":"Team name dosen't exist"
+        }
