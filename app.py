@@ -22,8 +22,9 @@ def team_vs_team():
 @app.route("/api/team_record")
 def record():
     team = request.args.get("team")
-    record = ipl.teamRecord(team)
-    return jsonify(record)
+    data = ipl.teamRecord(team)
+    
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(debug=True)

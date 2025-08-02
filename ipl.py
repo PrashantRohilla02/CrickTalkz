@@ -18,8 +18,8 @@ def teamVteamAPI(team1,team2):
         temp = matches[((matches['team1'] == team1) & (matches['team2'] == team2)) | ((matches['team1'] == team2) & (matches['team2'] == team1))]
         total_matches = temp.shape[0]
 
-        matches_won_team1 = temp["winner"].value_counts()[team1]
-        matches_won_team2 = temp["winner"].value_counts()[team2]
+        matches_won_team1 = temp["winner"].value_counts().get(team1,0)
+        matches_won_team2 = temp["winner"].value_counts().get(team2,0)
 
         comparison = {
                 "total match":total_matches,
@@ -29,7 +29,7 @@ def teamVteamAPI(team1,team2):
         return comparison
     else:
         return {
-            "error":"Team name dosen't exist"
+            "error":"Team name dosen't exist"   
         }
     
 def teamRecord(team):
@@ -39,6 +39,10 @@ def teamRecord(team):
         max_runs_scored = total_matches["target_runs"].max()
         lowest_runs_scored = total_matches["target_runs"].min()
 
+        AllTeams = matches['team1'].unique()
+
+        against = {team2 : teamVteamAPI(team,team2) for team2 in AllTeams if team2 != team}
+
         record = {
                     "total_matches":int(total_matches.shape[0]),
                     "matches_won":int(matches_won),
@@ -46,8 +50,17 @@ def teamRecord(team):
                     "max_runs_scored":int(max_runs_scored),
                     "lowest_runs_scored":int(lowest_runs_scored),
                     "average_runs_scored":int(total_matches["target_runs"].mean())
+                    
             }
-        return record
+        
+        data = {
+            team:{ 
+                "Overall":record,
+                "Against":against
+                }
+        }
+        return data
+    
     else:
         return {
             "error":"Team name dosen't exist"
