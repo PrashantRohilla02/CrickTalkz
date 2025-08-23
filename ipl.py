@@ -18,8 +18,8 @@ def teamVteamAPI(team1,team2):
         temp = matches[((matches['team1'] == team1) & (matches['team2'] == team2)) | ((matches['team1'] == team2) & (matches['team2'] == team1))]
         total_matches = temp.shape[0]
 
-        matches_won_team1 = temp["winner"].value_counts().get(team1,0)
-        matches_won_team2 = temp["winner"].value_counts().get(team2,0)
+        matches_won_team1 = temp[temp["winner"] == team1].shape[0]
+        matches_won_team2 = temp[temp["winner"]== team1].shape[0]
 
         comparison = {
                 "total match":total_matches,
