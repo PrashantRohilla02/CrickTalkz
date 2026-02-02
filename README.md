@@ -28,13 +28,13 @@ To build a backend API that:
 ---
 
 ## 📁 Project Structure
-
 CrickTalkz/
 │
-├── app.py # Flask application & API routes
-├── ipl.py # Data processing & helper functions
+├── app.py              # Flask application & API routes
+├── ipl.py              # Data processing & helper functions
 ├── DataSet/
-│ └── matches.csv # IPL match dataset
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
+│   └── matches.csv     # IPL match dataset
+├── requirements.txt    # Python dependencies
+└── README.md           # Project documentation
+
 
