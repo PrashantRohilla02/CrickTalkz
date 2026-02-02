@@ -28,6 +28,7 @@ To build a backend API that:
 ---
 
 ## 📁 Project Structure
+```text
 CrickTalkz/
 │
 ├── app.py              # Flask application & API routes
